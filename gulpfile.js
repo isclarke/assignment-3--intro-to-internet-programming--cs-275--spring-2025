@@ -6,15 +6,27 @@ const browserSync = require(`browser-sync`).create();
 const cleanCSS = require(`gulp-clean-css`);
 const uglify = require(`gulp-uglify`);
 const htmlmin = require(`gulp-htmlmin`);
+const del = require(`del`);
+const fs = require(`fs`);
 
 // Paths
 const paths = {
     js: `src/js/**/*.js`,
     css: `src/css/**/*.css`,
     html: `src/**/*.html`,
-    dist: `dist`,
     prod: `prod`
 };
+
+// Create required directories
+function createDirs(done) {
+    const dirs = [`prod/scripts`, `prod/styles`, `prod/html`];
+    dirs.forEach((dir) => {
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+    });
+    done();
+}
 
 // Lint JavaScript
 function lintJS() {
@@ -28,7 +40,7 @@ function lintJS() {
 function transpileJS() {
     return gulp.src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
-        .pipe(gulp.dest(paths.dist + `/js`))
+        .pipe(gulp.dest(`prod/js`))
         .pipe(browserSync.stream());
 }
 
@@ -50,20 +62,23 @@ function watchFiles() {
     gulp.watch(paths.html).on(`change`, browserSync.reload);
 }
 
-
+// Clean production folder
+function cleanProd() {
+    return del([`prod`]);
+}
 
 // Copy HTML to production and minify
 function buildHTML() {
     return gulp.src(paths.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest(paths.prod));
+        .pipe(gulp.dest(`prod/html`));
 }
 
 // Minify and copy CSS to production
 function buildCSS() {
     return gulp.src(paths.css)
         .pipe(cleanCSS())
-        .pipe(gulp.dest(paths.prod + `/css`));
+        .pipe(gulp.dest(`prod/css`));
 }
 
 // Minify and copy JavaScript to production
@@ -71,17 +86,11 @@ function buildJS() {
     return gulp.src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
         .pipe(uglify())
-        .pipe(gulp.dest(paths.prod + `/js`));
-}
-
-// Copy assets if any
-function copyAssets() {
-    return gulp.src(`src/assets/**/*`)
-        .pipe(gulp.dest(paths.prod + `/assets`));
+        .pipe(gulp.dest(`prod/js`));
 }
 
 // Development track
 exports.default = gulp.series(gulp.parallel(lintJS, lintCSS, transpileJS), watchFiles);
 
 // Production track
-exports.build = gulp.series(gulp.parallel(buildHTML, buildCSS, buildJS, copyAssets));
+exports.build = gulp.series(cleanProd, createDirs, gulp.parallel(buildHTML, buildCSS, buildJS));
