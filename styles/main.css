@@ -83,7 +83,6 @@ body {
   display: block;
 }
 
-/* Responsive Design */
 @media (max-width: 736px) {
   /* Side Tray */
   .dynamic-menu {
@@ -93,7 +92,7 @@ body {
     padding: 5px;
     display: none; /* Initially hidden */
     z-index: 1002; /* Ensure it is above other content */
-  box-shadow: 4px 6px rgba(0, 0, 0, .1);
+    box-shadow: 4px 6px rgba(0, 0, 0, .1);
   }
 
   .dynamic-menu ul {
@@ -116,10 +115,6 @@ body {
   /* When the drop-down menu is activated, make the side tray visible */
   .dynamic-menu.active {
     display: block;
-  }
-
-  .modal-panel {
-    max-width: 90%; /* Allow modal to fit within smaller screens */
   }
 }
 
