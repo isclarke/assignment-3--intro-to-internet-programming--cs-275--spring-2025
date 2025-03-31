@@ -1,0 +1,87 @@
+.body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation Menu */
+.dynamic-menu {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: orange;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 4px 6px rgba(0, 0, 0, .1);
+  display: none;
+}
+
+.dynamic-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dynamic-menu li {
+  padding: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.dynamic-menu a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.dynamic-menu .submenu {
+  margin-left: 15px;
+  display: none;
+}
+
+#js-triggers {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  padding: 10px;
+}
+
+/* Modal */
+.modal-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 4px 6px rgba(0, 0, 0, .1);
+  display: none;
+  z-index: 1001;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+  display: none;
+  z-index: 1000;
+}
+
+.modal-panel.visible .modal-overlay.visible {
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 736px) {
+  .dynamic-menu {
+    left: auto;
+    right: 20px;
+  }
+}
