@@ -7,16 +7,17 @@ const cleanCSS = require(`gulp-clean-css`);
 const uglify = require(`gulp-uglify`);
 const htmlmin = require(`gulp-htmlmin`);
 const fs = require(`fs`);
+const{ src, dest } = require(`gulp`);
 
 // Paths
 let paths = {
-    js: `src/js/**/*.js`,
-    css: `src/css/**/*.css`,
-    html: `src/**/*.html`,
+    js: `scripts/**/*.js`,
+    css: `styles/**/*.css`,
+    html: `index.html`,
     prod: `prod`
 };
 
-// Create required directories
+// Create directories
 let createDirs = (done) => {
     let dirs = [`prod/scripts`, `prod/styles`, `prod/html`];
     dirs.forEach((dir) => {
@@ -29,7 +30,7 @@ let createDirs = (done) => {
 
 // Lint JavaScript
 let lintJS = () => {
-    return gulp.src(paths.js)
+    return src(paths.js)
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -37,7 +38,7 @@ let lintJS = () => {
 
 // Transpile JavaScript to ES5
 let transpileJS = () => {
-    return gulp.src(paths.js)
+    return src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
         .pipe(gulp.dest(`prod/scripts`))
         .pipe(browserSync.stream());
@@ -45,7 +46,7 @@ let transpileJS = () => {
 
 // Lint CSS
 let lintCSS = () => {
-    return gulp.src(paths.css)
+    return src(paths.css)
         .pipe(stylelint({
             reporters: [{ formatter: `string`, console: true }]
         }));
@@ -57,30 +58,30 @@ let watchFiles = () => {
         server: { baseDir: `./` }
     });
     gulp.watch(paths.js, gulp.series(lintJS, transpileJS));
-    gulp.watch(paths.css, lintCSS).on(`change`, browserSync.reload);
+    gulp.watch(paths.css, gulp.series(lintCSS, buildCSS)).on(`change`, browserSync.reload);
     gulp.watch(paths.html).on(`change`, browserSync.reload);
 };
 
 // Copy HTML to production and minify
 let buildHTML = () => {
-    return gulp.src(paths.html)
+    return src(`index.html`)
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest(`prod/html`));
 };
 
 // Minify and copy CSS to production
 let buildCSS = () => {
-    return gulp.src(paths.css)
+    return src(paths.css)
         .pipe(cleanCSS())
         .pipe(gulp.dest(`prod/styles`));
 };
 
 // Minify and copy JavaScript to production
 let buildJS = () => {
-    return gulp.src(paths.js)
+    return src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
         .pipe(uglify())
-        .pipe(gulp.dest(`prod/scripts`));
+        .pipe(dest(`prod/scripts`));
 };
 
 // Development track
