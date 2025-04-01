@@ -15,7 +15,7 @@ nav {
 /* Drop down */
 .dynamic-menu {
   position: absolute;
-  top: 1px;
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
   background: orange;
@@ -51,11 +51,11 @@ nav {
 
 /* JS Triggers */
 #js-triggers {
-  border: 100;
   position: absolute;
   right: 0;
   top: 10px;
   padding: 10px;
+  background-color: lightblue;
   list-style: none;
   font-size: larger;
   z-index: 10;
@@ -93,17 +93,19 @@ nav {
 @media (max-width: 736px) {
   /* Side Tray */
   .dynamic-menu {
+    position: absolute;
+    top: 80px; /* Adjust this value based on the height of your header */
     left: 0;
-    transform: translateX(-50%);
+    transform: translateX(0); /* Remove translateX to align it properly */
     background: orange;
-    padding: 5px;
+    padding: 10px;
     display: none;
     z-index: 10;
     box-shadow: 4px 6px rgba(0, 0, 0, .1);
   }
 
   .dynamic-menu ul {
-    padding-left: 100px;
+    padding-left: 0; /* Adjust padding as needed */
     margin: 0;
     display: block;
   }
