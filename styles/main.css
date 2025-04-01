@@ -98,7 +98,7 @@ nav {
     background: orange;
     padding: 5px;
     display: none;
-    z-index: 10; /* Ensure it is above other content */
+    z-index: 10;
     box-shadow: 4px 6px rgba(0, 0, 0, .1);
   }
 
@@ -119,20 +119,19 @@ nav {
     font-size: smaller;
   }
 
-  /* When the drop-down menu is activated, make the side tray visible */
   .dynamic-menu.active {
     display: block;
   }
 }
 
-/* Reset to initial state when resizing */
+/* Reset if resized */
 @media (min-width: 737px) {
   .dynamic-menu {
     position: fixed;
     top: 50px;
     left: 50%;
     transform: translateX(-50%);
-    display: none; /* Hide the side tray */
+    display: none;
     z-index: 1002;
   }
 
