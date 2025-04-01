@@ -1,5 +1,6 @@
 const gulp = require(`gulp`);
 const stylelint = require(`gulp-stylelint`);
+const eslint = require(`gulp-eslint`);
 const babel = require(`gulp-babel`);
 const browserSync = require(`browser-sync`).create();
 const cleanCSS = require(`gulp-clean-css`);
@@ -33,6 +34,14 @@ let transpileJS = () => {
         .pipe(babel({ presets: [`@babel/env`] }))
         .pipe(gulp.dest(`prod/scripts`))
         .pipe(browserSync.stream());
+};
+
+// Lint JS files
+let lintJS = () => {
+    return gulp.src(paths.js)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 };
 
 // Lint CSS
@@ -74,7 +83,7 @@ let buildJS = () => {
 };
 
 // Development track
-exports.default = gulp.series(gulp.parallel(lintCSS, transpileJS), watchFiles);
+exports.default = gulp.series(gulp.parallel(lintCSS, lintJS, transpileJS), watchFiles);
 
 // Production track
 exports.build = gulp.series(createDirs, gulp.parallel(buildHTML, buildCSS, buildJS));
