@@ -53,21 +53,19 @@ let watchFiles = () => {
     gulp.watch(paths.html).on(`change`, browserSync.reload);
 };
 
-// Copy HTML to production and minify
+
 let buildHTML = () => {
     return src(`index.html`)
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest(`prod/html`));
 };
 
-// Minify and copy CSS to production
 let buildCSS = () => {
     return src(paths.css)
         .pipe(cleanCSS())
         .pipe(gulp.dest(`prod/styles`));
 };
 
-// Minify and copy JavaScript to production
 let buildJS = () => {
     return src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
