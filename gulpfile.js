@@ -28,21 +28,23 @@ let createDirs = (done) => {
     done();
 };
 
+// Lint JavaScript without modifying files
 let lintJS = () => {
     return src(paths.js)
-        .pipe(eslint())
+        .pipe(eslint({ fix: false })) // Ensure no auto-fixing
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
 };
 
-// Transpile JavaScript to ES5
+// Transpile JavaScript for development
 let transpileJS = () => {
     return src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
-        .pipe(dest(`scripts`)) // Save in place for dev
+        .pipe(dest(`scripts`)) // Keep in `scripts/`
         .pipe(browserSync.stream());
 };
 
+// Lint CSS
 let lintCSS = () => {
     return src(paths.css)
         .pipe(stylelint({
@@ -50,6 +52,7 @@ let lintCSS = () => {
         }));
 };
 
+// Minify JavaScript for production
 let buildJS = () => {
     return src(paths.js)
         .pipe(babel({ presets: [`@babel/env`] }))
@@ -57,12 +60,14 @@ let buildJS = () => {
         .pipe(dest(`prod/scripts`));
 };
 
+// Minify CSS for production
 let buildCSS = () => {
     return src(paths.css)
         .pipe(cleanCSS())
         .pipe(dest(`prod/styles`));
 };
 
+// Minify HTML for production
 let buildHTML = () => {
     return src(paths.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
