@@ -69,8 +69,8 @@ nav {
   background: white;
   padding: 40px;
   border-radius: 8px;
-  width: 1000px;
-  height: 500px;  /* Height auto to allow content flexibility */
+  width: 600px;
+  height: 300 px;
   display: none;
   transition: opacity .3s ease-in-out;
   z-index: 1003;
