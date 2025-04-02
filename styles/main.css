@@ -67,13 +67,11 @@ nav {
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 40px; /* Increased padding for bigger content */
+  padding: 40px;
   border-radius: 8px;
-  box-shadow: 4px 6px 15px rgba(0, 0, 0, .2); /* Slightly heavier shadow for depth */
-  width: 600px;  /* Increased width for a larger modal */
-  height: auto;  /* Height auto to allow content flexibility */
+  width: 1000px;
+  height: 500px;  /* Height auto to allow content flexibility */
   display: none;
-  opacity: 0;
   transition: opacity .3s ease-in-out;
   z-index: 1003;
 }
@@ -88,7 +86,7 @@ nav {
   display: none;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  z-index: 1000;
+  z-index: -1;
 }
 
 .modal-panel.visible,
