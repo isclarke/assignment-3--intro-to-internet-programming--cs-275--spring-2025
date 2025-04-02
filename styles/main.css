@@ -21,7 +21,7 @@ nav {
   background: orange;
   padding: 10px;
   display: none; /* Initially hidden */
-  z-index: 1002; /* Ensure it is above other content */
+  z-index: 11; /* Ensure it is above other content */
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
@@ -49,7 +49,6 @@ nav {
   display: none;
 }
 
-/* JS Triggers */
 #js-triggers {
   position: absolute;
   right: 0;
@@ -58,7 +57,7 @@ nav {
   background-color: lightblue;
   list-style: none;
   font-size: larger;
-  z-index: -1;
+  z-index: 10;
 }
 
 .modal-panel {
@@ -66,14 +65,14 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: red;
   padding: 40px;
   border-radius: 8px;
   width: 600px;
-  height: 300 px;
+  height: 500px;
   display: none;
   transition: opacity .3s ease-in-out;
-  z-index: 1003;
+  z-index: -1;
 }
 
 .modal-overlay {
@@ -86,7 +85,7 @@ nav {
   display: none;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  z-index: -1;
+  z-index: 3;
 }
 
 .modal-panel.visible,
