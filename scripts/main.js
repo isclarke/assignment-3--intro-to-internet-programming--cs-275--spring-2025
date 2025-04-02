@@ -63,6 +63,11 @@ document.addEventListener(`DOMContentLoaded`, function () {
         isModalOpen = !isModalOpen;
         modal.classList.toggle(`visible`, isModalOpen);
         modalBackground.classList.toggle(`visible`, isModalOpen);
+        if (isModalOpen) {
+            menuContainer.style.display = `none`; // Hide menu when modal is open
+        } else {
+            menuContainer.style.display = ``; // Show menu again when modal is closed
+        }
     }
     modalTrigger.addEventListener(`click`, function (e) {
         e.preventDefault();
