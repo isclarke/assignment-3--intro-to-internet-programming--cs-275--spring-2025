@@ -58,7 +58,7 @@ nav {
   background-color: lightblue;
   list-style: none;
   font-size: larger;
-  z-index: 10;
+  z-index: -1;
 }
 
 .modal-panel {
