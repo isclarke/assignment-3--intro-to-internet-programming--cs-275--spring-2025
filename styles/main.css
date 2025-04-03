@@ -57,9 +57,8 @@ nav {
 #js-triggers {
   position: absolute;
   right: 0;
-  top: 10px;
+  top: 0;
   padding: 10px;
-  background-color: lightblue;
   list-style: none;
   font-size: larger;
   z-index: 10;
