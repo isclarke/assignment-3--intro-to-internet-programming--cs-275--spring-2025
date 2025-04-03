@@ -13,7 +13,8 @@ header {
 nav {
   display: none;
 }
-/* Drop down */
+
+/* Drop-down menu */
 .dynamic-menu {
   position: absolute;
   top: 100px;
@@ -58,9 +59,10 @@ nav {
   background-color: lightblue;
   list-style: none;
   font-size: larger;
-  z-index: 10;
+  z-index: 10; /* Ensure it's above other elements but below modal */
 }
 
+/* Modal Styling */
 .modal-panel {
   position: fixed;
   top: 50%;
@@ -73,7 +75,7 @@ nav {
   height: 500px;
   display: none;
   transition: opacity .3s ease-in-out;
-  z-index: -1;
+  z-index: 1001; /* Ensure it's above the menu and triggers */
 }
 
 .modal-overlay {
@@ -86,7 +88,7 @@ nav {
   display: none;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  z-index: 3;
+  z-index: 1000; /* Just below the modal panel */
 }
 
 .modal-panel.visible,
@@ -101,7 +103,7 @@ nav {
     position: absolute;
     top: 80px; /* Adjust this value based on the height of your header */
     left: 0;
-    transform: translateX(0); /* Remove translateX to align it properly */
+    transform: translateX(0);
     background: orange;
     padding: 10px;
     display: none;
@@ -110,7 +112,7 @@ nav {
   }
 
   .dynamic-menu ul {
-    padding-left: 0; /* Adjust padding as needed */
+    padding-left: 0;
     margin: 0;
     display: block;
   }

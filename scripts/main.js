@@ -1,11 +1,12 @@
-"use strict";
-
 document.addEventListener(`DOMContentLoaded`, function () {
     // Modal Elements
     let modalTrigger = document.querySelector(`#js-triggers li:nth-child(2) a`);
     let modal = document.querySelector(`.modal-panel`);
     let modalBackground = document.createElement(`div`);
     modalBackground.classList.add(`modal-overlay`);
+
+    // Ensure modal and overlay are in the correct order
+    document.body.appendChild(modal);
     document.body.appendChild(modalBackground);
 
     // Menu Elements
@@ -48,10 +49,12 @@ document.addEventListener(`DOMContentLoaded`, function () {
     document.body.appendChild(menuContainer);
     menuContainer.style.display = `none`;
     let isMenuOpen = false;
+
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
         menuContainer.style.display = isMenuOpen ? `block` : `none`;
     }
+
     menuTrigger.addEventListener(`click`, function (e) {
         e.preventDefault();
         toggleMenu();
@@ -63,17 +66,21 @@ document.addEventListener(`DOMContentLoaded`, function () {
         isModalOpen = !isModalOpen;
         modal.classList.toggle(`visible`, isModalOpen);
         modalBackground.classList.toggle(`visible`, isModalOpen);
+
         if (isModalOpen) {
             menuContainer.style.display = `none`; // Hide menu when modal is open
         } else {
-            menuContainer.style.display = ``; // Show menu again when modal is closed
+            menuContainer.style.display = isMenuOpen ? `block` : `none`; // Show menu if it was open
         }
     }
+
     modalTrigger.addEventListener(`click`, function (e) {
         e.preventDefault();
         toggleModal();
     });
+
     modalBackground.addEventListener(`click`, toggleModal);
+
     document.addEventListener(`keydown`, function (e) {
         if (e.key === `Escape` && isModalOpen) {
             toggleModal();
