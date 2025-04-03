@@ -1,11 +1,9 @@
 document.addEventListener(`DOMContentLoaded`, function () {
-    // Modal Elements
     let modalTrigger = document.querySelector(`#js-triggers li:nth-child(2) a`);
     let modal = document.querySelector(`.modal-panel`);
     let modalBackground = document.createElement(`div`);
     modalBackground.classList.add(`modal-overlay`);
 
-    // Ensure modal and overlay are in the correct order
     document.body.appendChild(modal);
     document.body.appendChild(modalBackground);
 
@@ -46,6 +44,7 @@ document.addEventListener(`DOMContentLoaded`, function () {
             subMenu.style.display = subMenu.style.display === `none` ? `block` : `none`;
         });
     });
+
     document.body.appendChild(menuContainer);
     menuContainer.style.display = `none`;
     let isMenuOpen = false;
@@ -60,7 +59,7 @@ document.addEventListener(`DOMContentLoaded`, function () {
         toggleMenu();
     });
 
-    // Modal Functionality
+    // Modal functions
     let isModalOpen = false;
     function toggleModal() {
         isModalOpen = !isModalOpen;
