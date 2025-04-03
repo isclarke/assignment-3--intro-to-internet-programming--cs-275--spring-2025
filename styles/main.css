@@ -16,14 +16,17 @@ nav {
 
 /* Drop-down menu */
 .dynamic-menu {
+  margin-top: 85px;
   position: absolute;
-  top: 100px;
+  top: 500px;
   left: 50%;
   transform: translateX(-50%);
   background: orange;
   padding: 10px;
   display: none;
   z-index: 11;
+  transition: max-height 4s ease-in-out;
+  overflow: hidden;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
@@ -101,7 +104,7 @@ nav {
   /* Side Tray */
   .dynamic-menu {
     position: absolute;
-    top: 80px;
+    top: 50px;
     left: 0;
     transform: translateX(0);
     background: orange;
