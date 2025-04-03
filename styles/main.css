@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  margin-left: 20px;
 }
 
 header {
@@ -65,7 +66,7 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: red;
+  background: white;
   padding: 40px;
   border-radius: 8px;
   width: 600px;
