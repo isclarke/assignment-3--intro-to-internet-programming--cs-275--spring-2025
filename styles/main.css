@@ -22,8 +22,8 @@ nav {
   transform: translateX(-50%);
   background: orange;
   padding: 10px;
-  display: none; /* Initially hidden */
-  z-index: 11; /* Ensure it is above other content */
+  display: none;
+  z-index: 11;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
@@ -59,7 +59,7 @@ nav {
   background-color: lightblue;
   list-style: none;
   font-size: larger;
-  z-index: 10; /* Ensure it's above other elements but below modal */
+  z-index: 10;
 }
 
 /* Modal Styling */
@@ -75,7 +75,7 @@ nav {
   height: 500px;
   display: none;
   transition: opacity .3s ease-in-out;
-  z-index: 1001; /* Ensure it's above the menu and triggers */
+  z-index: 1001;
 }
 
 .modal-overlay {
@@ -88,7 +88,7 @@ nav {
   display: none;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  z-index: 1000; /* Just below the modal panel */
+  z-index: 1000;
 }
 
 .modal-panel.visible,
@@ -101,7 +101,7 @@ nav {
   /* Side Tray */
   .dynamic-menu {
     position: absolute;
-    top: 80px; /* Adjust this value based on the height of your header */
+    top: 80px;
     left: 0;
     transform: translateX(0);
     background: orange;
@@ -145,6 +145,6 @@ nav {
   }
 
   .dynamic-menu.active {
-    display: block; /* Show the menu only when activated */
+    display: block;
   }
 }
