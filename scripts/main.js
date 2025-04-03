@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener(`DOMContentLoaded`, function () {
     let modalTrigger = document.querySelector(`#js-triggers li:nth-child(2) a`);
     let modal = document.querySelector(`.modal-panel`);
