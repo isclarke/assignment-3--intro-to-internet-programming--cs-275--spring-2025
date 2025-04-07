@@ -1,27 +1,30 @@
 const gulp = require(`gulp`);
+const { src, dest, series, parallel, watch } = gulp;
 const stylelint = require(`gulp-stylelint`);
 const eslint = require(`gulp-eslint`);
 const babel = require(`gulp-babel`);
+const uglify = require(`gulp-uglify`);
 const browserSync = require(`browser-sync`).create();
 const cleanCSS = require(`gulp-clean-css`);
-const uglify = require(`gulp-uglify`);
 const htmlmin = require(`gulp-htmlmin`);
 const fs = require(`fs`);
-const{ src, dest } = require(`gulp`);
 
-// Paths
 let paths = {
     js: `scripts/**/*.js`,
     css: `styles/**/*.css`,
     html: `index.html`,
-    prod: `prod` ,
+    prod: `prod`,
     temp: `temp`
 };
 
-// Create directories
 let createDirs = (done) => {
-    let dirs = [`prod/scripts`, `prod/styles`, `prod/html`];
-    dirs.forEach((dir) => {
+    [
+        `prod/scripts`,
+        `prod/styles`,
+        `prod/html`,
+        `temp/scripts`,
+        `temp/styles`
+    ].forEach((dir) => {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -29,62 +32,51 @@ let createDirs = (done) => {
     done();
 };
 
-// Transpile JavaScript to ES5
-let transpileJS = () => {
+let lintAndTranspileJS = () => {
     return src(paths.js)
-        .pipe(babel({ presets: [`@babel/env`] }))
-        .pipe(gulp.dest(`prod/scripts`))
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(babel({ presets: [`@babel/preset-env`] }))
+        .pipe(dest(`temp/scripts`))
+        .pipe(uglify())
+        .pipe(dest(`prod/scripts`))
         .pipe(browserSync.stream());
 };
 
-// Lint JS files
-let lintJS = () => {
-    return gulp.src(paths.js)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-};
-
-// Lint CSS
 let lintCSS = () => {
-    return src(paths.css)
-        .pipe(stylelint({
-            reporters: [{ formatter: `string`, console: true }]
-        }));
+    return src(paths.css).pipe(stylelint({
+        reporters: [{ formatter: `string`, console: true }]
+    }));
 };
-
-// Watch files and reload browser
-let watchFiles = () => {
-    browserSync.init({
-        server: { baseDir: `./` }
-    });
-    gulp.watch(paths.js, gulp.series( transpileJS));
-    gulp.watch(paths.css, gulp.series(lintCSS, buildCSS)).on(`change`, browserSync.reload);
-    gulp.watch(paths.html).on(`change`, browserSync.reload);
-};
-
 
 let buildHTML = () => {
-    return src(`index.html`)
+    return src(paths.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest(`prod/html`));
+        .pipe(dest(`temp`))
+        .pipe(dest(`prod/html`));
 };
 
 let buildCSS = () => {
     return src(paths.css)
         .pipe(cleanCSS())
-        .pipe(gulp.dest(`prod/styles`));
+        .pipe(dest(`temp/styles`))
+        .pipe(dest(`prod/styles`));
 };
 
-let buildJS = () => {
-    return src(paths.js)
-        .pipe(babel({ presets: [`@babel/env`] }))
-        .pipe(uglify())
-        .pipe(dest(`prod/scripts`));
+let watchFiles = () => {
+    browserSync.init({ server: { baseDir: `temp` } });
+    watch(paths.js, lintAndTranspileJS);
+    watch(paths.css, series(lintCSS, buildCSS)).on(`change`, browserSync.reload);
+    watch(paths.html, series(buildHTML)).on(`change`, browserSync.reload);
 };
 
-// Development track
-exports.default = gulp.series(gulp.parallel(lintCSS, lintJS, transpileJS), watchFiles);
+exports.default = series(
+    createDirs,
+    parallel(lintAndTranspileJS, lintCSS, buildHTML, buildCSS),
+    watchFiles
+);
 
-// Production track
-exports.build = gulp.series(createDirs, gulp.parallel(buildHTML, buildCSS, buildJS));
+exports.build = series(
+    createDirs,
+    parallel(buildHTML, buildCSS, lintAndTranspileJS)
+);
