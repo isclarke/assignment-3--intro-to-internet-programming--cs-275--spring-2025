@@ -14,7 +14,8 @@ let paths = {
     js: `scripts/**/*.js`,
     css: `styles/**/*.css`,
     html: `index.html`,
-    prod: `prod`
+    prod: `prod` ,
+    temp: `temp`
 };
 
 // Create directories
