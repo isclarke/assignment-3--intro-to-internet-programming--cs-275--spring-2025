@@ -6,7 +6,7 @@ body {
 }
 
 header {
-  margin-top: 100px;
+  margin-top: 60px;
   font-size: large;
 }
 
@@ -17,7 +17,6 @@ nav {
 /* Drop-down menu */
 .dynamic-menu {
   position: absolute;
-  top: 200px; /* Appears right below header */
   left: 50%;
   transform: translateX(-50%);
   background: orange;
@@ -25,7 +24,7 @@ nav {
   max-height: 0; /* Start hidden */
   overflow: hidden;
   z-index: 11;
-  transition: max-height .5s ease-in-out, padding .3s ease-in-out;
+  transition: max-height .5s ease-in-out, padding .9s ease-in-out;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
@@ -62,10 +61,14 @@ nav {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 10px;
+  padding: 5px;
   list-style: none;
-  font-size: larger;
   z-index: 10;
+}
+
+#js-triggers a {
+  text-decoration: none;
+  color: black;
 }
 
 /* Modal Styling */
