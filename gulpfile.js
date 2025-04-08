@@ -41,10 +41,13 @@ let lintAndTranspileJS = () => {
 };
 
 let lintCSS = () => {
-    return src(paths.css).pipe(stylelint({
-        reporters: [{ formatter: `string`, console: true }]
-    }));
+    return src(paths.css)
+        .pipe(stylelint({
+            reporters: [{ formatter: `string`, console: true }]
+        }))
+        .pipe(dest(`temp/styles`));
 };
+
 
 let transpileJSForProd = () => {
     return src(paths.js)
@@ -65,7 +68,6 @@ let buildHTML = () => {
 let buildCSS = () => {
     return src(paths.css)
         .pipe(cleanCSS())
-        .pipe(dest(`temp/styles`))
         .pipe(dest(`prod/styles`));
 };
 
