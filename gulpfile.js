@@ -75,9 +75,13 @@ let buildCSS = () => {
         .pipe(dest(`prod/styles`));
 };
 
-//WATCH FILE READING FROM TEMP FOLDER
-let watchFiles = () => {
+// START SERVER
+let serve = () => {
     browserSync.init({ server: { baseDir: `temp` } });
+};
+
+//WATCH FILES
+let watchFiles = () => {
     watch(paths.js, lintAndTranspileJS);
     watch(paths.css, series(lintCSS, buildCSS)).on(`change`, browserSync.reload);
     watch(paths.html, series(buildHTML)).on(`change`, browserSync.reload);
@@ -88,7 +92,7 @@ let watchFiles = () => {
 exports.default = series(
     createDirs,
     parallel(lintAndTranspileJS, lintCSS, copyHTMLforDev),
-    watchFiles
+    parallel(serve, watchFiles)
 );
 
 //BUILD PROD TRACK
