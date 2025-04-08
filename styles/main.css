@@ -16,18 +16,22 @@ nav {
 
 /* Drop-down menu */
 .dynamic-menu {
-  margin-top: 85px;
   position: absolute;
-  top: 500px;
+  top: 200px; /* Appears right below header */
   left: 50%;
   transform: translateX(-50%);
   background: orange;
   padding: 10px;
-  display: none;
-  z-index: 11;
-  transition: max-height 4s ease-in-out;
+  max-height: 0; /* Start hidden */
   overflow: hidden;
+  z-index: 11;
+  transition: max-height .5s ease-in-out, padding .3s ease-in-out;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
+}
+
+.dynamic-menu.open {
+  max-height: 20px;
+  padding: 10px;
 }
 
 .dynamic-menu ul {

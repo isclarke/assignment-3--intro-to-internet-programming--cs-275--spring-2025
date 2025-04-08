@@ -49,11 +49,24 @@ document.addEventListener(`DOMContentLoaded`, function () {
 
     document.body.appendChild(menuContainer);
     menuContainer.style.display = `none`;
+    menuContainer.style.maxHeight = `0`;
+
     let isMenuOpen = false;
 
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
-        menuContainer.style.display = isMenuOpen ? `block` : `none`;
+
+        if (isMenuOpen) {
+            menuContainer.style.display = `block`;
+            setTimeout(() => {
+                menuContainer.style.maxHeight = `600px`;  // or whatever height fits your content
+            }, 10);
+        } else {
+            menuContainer.style.maxHeight = `0`;
+            setTimeout(() => {
+                menuContainer.style.display = `none`;
+            }, 500);
+        }
     }
 
     menuTrigger.addEventListener(`click`, function (e) {
