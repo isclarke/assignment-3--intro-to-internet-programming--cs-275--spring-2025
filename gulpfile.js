@@ -48,6 +48,10 @@ let lintCSS = () => {
         .pipe(dest(`temp/styles`));
 };
 
+let copyHTMLforDev = () => {
+    return src(paths.html)
+        .pipe(dest(`temp`));
+};
 
 let transpileJSForProd = () => {
     return src(paths.js)
@@ -57,11 +61,9 @@ let transpileJSForProd = () => {
         .pipe(browserSync.stream());
 };
 
-
 let buildHTML = () => {
     return src(paths.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(dest(`temp`))
         .pipe(dest(`prod/html`));
 };
 
@@ -80,7 +82,7 @@ let watchFiles = () => {
 
 exports.default = series(
     createDirs,
-    parallel(lintAndTranspileJS, lintCSS, buildHTML),
+    parallel(lintAndTranspileJS, lintCSS, copyHTMLforDev),
     watchFiles
 );
 
