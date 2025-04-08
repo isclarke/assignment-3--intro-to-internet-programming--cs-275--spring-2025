@@ -49,7 +49,6 @@ document.addEventListener(`DOMContentLoaded`, function () {
         menu.appendChild(subMenu);
         menuContainer.appendChild(menu);
 
-        // Toggle submenu visibility
         menuLink.addEventListener(`click`, function (e) {
             e.preventDefault();
             subMenu.style.display = subMenu.style.display === `none` ? `block` : `none`;
