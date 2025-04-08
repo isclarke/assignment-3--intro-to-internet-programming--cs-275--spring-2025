@@ -57,53 +57,49 @@ document.addEventListener(`DOMContentLoaded`, function () {
     });
 
     document.body.appendChild(menuContainer);
-    menuContainer.classList.remove(`active`); // Initially hidden
 
     let isMenuOpen = false;
 
-    // Function to toggle the side menu
+    // Toggle Menu (with smooth transition)
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
 
         if (isMenuOpen) {
-            menuContainer.classList.add(`active`); // Slide in
+            menuContainer.classList.add(`active`);
+            menuTrigger.textContent = `Hide Menu`;
         } else {
-            menuContainer.classList.remove(`active`); // Slide out
+            menuContainer.classList.remove(`active`);
+            menuTrigger.textContent = `Show Menu`;
         }
     }
 
-    // Event listener for the menu trigger
     menuTrigger.addEventListener(`click`, function (e) {
         e.preventDefault();
         toggleMenu();
     });
 
-    // Modal functions
+    // Modal Logic
     let isModalOpen = false;
 
-    // Function to toggle the modal
     function toggleModal() {
         isModalOpen = !isModalOpen;
         modal.classList.toggle(`visible`, isModalOpen);
         modalBackground.classList.toggle(`visible`, isModalOpen);
 
         if (isModalOpen) {
-            menuContainer.classList.remove(`active`); // Close menu when modal is open
-        } else {
-            menuContainer.classList.toggle(`active`, isMenuOpen); // Keep menu state
+            isMenuOpen = false;
+            menuContainer.classList.remove(`active`);
+            menuTrigger.textContent = `Show Menu`;
         }
     }
 
-    // Event listener for the modal trigger
     modalTrigger.addEventListener(`click`, function (e) {
         e.preventDefault();
         toggleModal();
     });
 
-    // Close modal when clicking on the background
     modalBackground.addEventListener(`click`, toggleModal);
 
-    // Close modal with Escape key
     document.addEventListener(`keydown`, function (e) {
         if (e.key === `Escape` && isModalOpen) {
             toggleModal();
