@@ -87,7 +87,6 @@ let watchFiles = () => {
     watch(paths.html, series(buildHTML)).on(`change`, browserSync.reload);
 };
 
-
 //BUILD DEV TRACK
 exports.default = series(
     createDirs,
