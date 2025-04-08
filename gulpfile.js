@@ -80,7 +80,7 @@ let watchFiles = () => {
 
 exports.default = series(
     createDirs,
-    parallel(lintAndTranspileJS, lintCSS, buildHTML, buildCSS),
+    parallel(lintAndTranspileJS, lintCSS, buildHTML),
     watchFiles
 );
 
