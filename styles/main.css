@@ -14,23 +14,25 @@ nav {
   display: none;
 }
 
-/* Drop-down menu */
 .dynamic-menu {
   position: absolute;
   left: 50%;
-  top: 50px;
+  top: 110px; /* ensure it's below the header */
   transform: translateX(-50%);
   background: orange;
-  padding: 10px;
-  max-height: 0; /* Start hidden */
   overflow: hidden;
+  padding: 0 10px;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .5s ease-in-out, opacity .5s ease-in-out, padding .5s ease-in-out;
   z-index: 11;
-  transition: max-height .5s ease-in-out, padding .9s ease-in-out;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
-.dynamic-menu.open {
-  max-height: 20px;
+/* Active menu shows up */
+.dynamic-menu.active {
+  max-height: 300px; /* enough height for content */
+  opacity: 1;
   padding: 10px;
 }
 
