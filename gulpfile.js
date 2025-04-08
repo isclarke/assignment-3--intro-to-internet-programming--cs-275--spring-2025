@@ -37,10 +37,7 @@ let lintAndTranspileJS = () => {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(babel({ presets: [`@babel/preset-env`] }))
-        .pipe(dest(`temp/scripts`))
-        .pipe(uglify())
-        .pipe(dest(`prod/scripts`))
-        .pipe(browserSync.stream());
+        .pipe(dest(`temp/scripts`));
 };
 
 let lintCSS = () => {
@@ -48,6 +45,15 @@ let lintCSS = () => {
         reporters: [{ formatter: `string`, console: true }]
     }));
 };
+
+let transpileJSForProd = () => {
+    return src(paths.js)
+        .pipe(babel({presets: [`@babel/preset-env`]}))
+        .pipe(uglify())
+        .pipe(dest(`prod/scripts`))
+        .pipe(browserSync.stream());
+};
+
 
 let buildHTML = () => {
     return src(paths.html)
@@ -78,5 +84,5 @@ exports.default = series(
 
 exports.build = series(
     createDirs,
-    parallel(buildHTML, buildCSS, lintAndTranspileJS)
+    parallel(buildHTML, buildCSS, transpileJSForProd)
 );
