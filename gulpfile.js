@@ -32,6 +32,7 @@ let createDirs = (done) => {
     done();
 };
 
+//DEV TRACK TASKS
 let lintAndTranspileJS = () => {
     return src(paths.js)
         .pipe(eslint())
@@ -53,6 +54,7 @@ let copyHTMLforDev = () => {
         .pipe(dest(`temp`));
 };
 
+//PROD TRACK TASKS
 let transpileJSForProd = () => {
     return src(paths.js)
         .pipe(babel({presets: [`@babel/preset-env`]}))
@@ -73,6 +75,7 @@ let buildCSS = () => {
         .pipe(dest(`prod/styles`));
 };
 
+//WATCH FILE READING FROM TEMP FOLDER
 let watchFiles = () => {
     browserSync.init({ server: { baseDir: `temp` } });
     watch(paths.js, lintAndTranspileJS);
@@ -80,12 +83,15 @@ let watchFiles = () => {
     watch(paths.html, series(buildHTML)).on(`change`, browserSync.reload);
 };
 
+
+//BUILD DEV TRACK
 exports.default = series(
     createDirs,
     parallel(lintAndTranspileJS, lintCSS, copyHTMLforDev),
     watchFiles
 );
 
+//BUILD PROD TRACK
 exports.build = series(
     createDirs,
     parallel(buildHTML, buildCSS, transpileJSForProd)
