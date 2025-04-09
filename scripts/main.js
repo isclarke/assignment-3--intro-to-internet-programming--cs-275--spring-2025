@@ -14,7 +14,6 @@ document.addEventListener(`DOMContentLoaded`, function () {
     let menuContainer = document.createElement(`nav`);
     menuContainer.classList.add(`dynamic-menu`);
 
-    // Sample menu data
     let menus = [{
         title: `Menu 1`,
         items: [`1.1`, `1.2`, `1.3`]
@@ -53,9 +52,9 @@ document.addEventListener(`DOMContentLoaded`, function () {
             e.preventDefault();
             subMenu.style.display = subMenu.style.display === `none` ? `block` : `none`;
             if (subMenu.style.display === `block`) {
-                subMenu.style.maxHeight = subMenu.scrollHeight + `px`; // Set max-height to scrollHeight
+                subMenu.style.maxHeight = subMenu.scrollHeight + `px`;
             } else {
-                subMenu.style.maxHeight = `0`; // Collapse
+                subMenu.style.maxHeight = `0`;
             }
         });
     });
@@ -64,18 +63,18 @@ document.addEventListener(`DOMContentLoaded`, function () {
 
     let isMenuOpen = false;
 
-    // Toggle Menu (with smooth transition)
+    // Toggle Menu
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
 
         if (isMenuOpen) {
             menuContainer.classList.add(`active`);
             menuTrigger.textContent = `Hide Menu`;
-            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`; // Set max-height to scrollHeight
+            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`;
         } else {
             menuContainer.classList.remove(`active`);
             menuTrigger.textContent = `Show Menu`;
-            menuContainer.style.maxHeight = `0`; // Collapse
+            menuContainer.style.maxHeight = `0`;
         }
     }
 
@@ -84,7 +83,7 @@ document.addEventListener(`DOMContentLoaded`, function () {
         toggleMenu();
     });
 
-    // Modal Logic
+    // Modal
     let isModalOpen = false;
 
     function toggleModal() {
@@ -96,7 +95,7 @@ document.addEventListener(`DOMContentLoaded`, function () {
             isMenuOpen = false;
             menuContainer.classList.remove(`active`);
             menuTrigger.textContent = `Show Menu`;
-            menuContainer.style.maxHeight = `0`; // Collapse menu if modal is opened
+            menuContainer.style.maxHeight = `0`;
         }
     }
 
@@ -117,10 +116,10 @@ document.addEventListener(`DOMContentLoaded`, function () {
     window.addEventListener(`resize`, function () {
         if (window.innerWidth > 736 && isMenuOpen) {
             menuContainer.classList.add(`active`);
-            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`; // Set max-height to scrollHeight
+            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`;
         } else if (window.innerWidth <= 736) {
             menuContainer.classList.remove(`active`);
-            menuContainer.style.maxHeight = `0`; // Collapse
+            menuContainer.style.maxHeight = `0`;
         }
     });
 });
