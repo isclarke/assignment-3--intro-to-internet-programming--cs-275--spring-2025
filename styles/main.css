@@ -6,7 +6,7 @@ body {
 }
 
 header {
-  margin-top: 60px;
+  margin-top: 75px;
   font-size: large;
 }
 
@@ -15,14 +15,14 @@ nav {
 }
 
 .dynamic-menu {
-  position: fixed;
-  top: 140px;
+  position: absolute;
   left: 50%;
+  top: 110px; /* ensure it's below the header */
   transform: translateX(-50%);
   background: orange;
   overflow: hidden;
-  padding: 20px;
-  max-height: 0;
+  padding: 0 10px;
+  max-height: 0; /* Start collapsed */
   opacity: 0;
   transition: max-height .5s ease-in-out, opacity .5s ease-in-out, padding .5s ease-in-out;
   z-index: 11;
@@ -31,7 +31,6 @@ nav {
 
 /* Active menu shows up */
 .dynamic-menu.active {
-  max-height: 300px; /* enough height for content */
   opacity: 1;
   padding: 10px;
 }
@@ -112,15 +111,20 @@ nav {
 @media (max-width: 736px) {
   /* Side Tray */
   .dynamic-menu {
-    position: absolute;
-    top: 145px;
-    left: 0;
-    transform: translateX(0);
+    position: fixed;
+    top: 0;
+    left: -250px; /* Start hidden off-screen */
+    transform: translateY(0);
     background: orange;
     padding: 10px;
-    display: none;
+    display: block;
     z-index: 10;
     box-shadow: 4px 6px rgba(0, 0, 0, .1);
+    transition: left .5s ease-in-out; /* Smooth transition for side tray */
+  }
+
+  .dynamic-menu.active {
+    left: 0; /* Slide in */
   }
 
   .dynamic-menu ul {
@@ -139,17 +143,13 @@ nav {
     display: block;
     font-size: smaller;
   }
-
-  .dynamic-menu.active {
-    display: block;
-  }
 }
 
 /* Reset if resized */
 @media (min-width: 737px) {
   .dynamic-menu {
-    position: fixed;
-    top: 50px;
+    position: absolute;
+    top: 110px; /* ensure it's below the header */
     left: 50%;
     transform: translateX(-50%);
     display: none;

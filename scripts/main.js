@@ -52,6 +52,11 @@ document.addEventListener(`DOMContentLoaded`, function () {
         menuLink.addEventListener(`click`, function (e) {
             e.preventDefault();
             subMenu.style.display = subMenu.style.display === `none` ? `block` : `none`;
+            if (subMenu.style.display === `block`) {
+                subMenu.style.maxHeight = subMenu.scrollHeight + `px`; // Set max-height to scrollHeight
+            } else {
+                subMenu.style.maxHeight = `0`; // Collapse
+            }
         });
     });
 
@@ -66,9 +71,11 @@ document.addEventListener(`DOMContentLoaded`, function () {
         if (isMenuOpen) {
             menuContainer.classList.add(`active`);
             menuTrigger.textContent = `Hide Menu`;
+            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`; // Set max-height to scrollHeight
         } else {
             menuContainer.classList.remove(`active`);
             menuTrigger.textContent = `Show Menu`;
+            menuContainer.style.maxHeight = `0`; // Collapse
         }
     }
 
@@ -89,6 +96,7 @@ document.addEventListener(`DOMContentLoaded`, function () {
             isMenuOpen = false;
             menuContainer.classList.remove(`active`);
             menuTrigger.textContent = `Show Menu`;
+            menuContainer.style.maxHeight = `0`; // Collapse menu if modal is opened
         }
     }
 
@@ -102,6 +110,17 @@ document.addEventListener(`DOMContentLoaded`, function () {
     document.addEventListener(`keydown`, function (e) {
         if (e.key === `Escape` && isModalOpen) {
             toggleModal();
+        }
+    });
+
+    // Handle window resize to reflow menu
+    window.addEventListener(`resize`, function () {
+        if (window.innerWidth > 736 && isMenuOpen) {
+            menuContainer.classList.add(`active`);
+            menuContainer.style.maxHeight = menuContainer.scrollHeight + `px`; // Set max-height to scrollHeight
+        } else if (window.innerWidth <= 736) {
+            menuContainer.classList.remove(`active`);
+            menuContainer.style.maxHeight = `0`; // Collapse
         }
     });
 });
