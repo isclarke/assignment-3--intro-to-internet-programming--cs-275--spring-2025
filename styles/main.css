@@ -6,7 +6,7 @@ body {
 }
 
 header {
-  margin-top: 75px;
+  margin-top: 60px;
   font-size: large;
 }
 
@@ -15,16 +15,16 @@ nav {
 }
 
 .dynamic-menu {
-  position: absolute;
+  position: fixed;
+  top: 140px;
   left: 50%;
-  top: 110px; /* ensure it's below the header */
   transform: translateX(-50%);
   background: orange;
   overflow: hidden;
-  padding: 0 10px;
+  padding: 20px;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+  transition: max-height .5s ease-in-out, opacity .5s ease-in-out, padding .5s ease-in-out;
   z-index: 11;
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
@@ -86,7 +86,7 @@ nav {
   width: 600px;
   height: 500px;
   display: none;
-  transition: opacity 0.5s ease-in-out; /* Updated to 0.5s */
+  transition: opacity .5s ease-in-out; /* Updated to 0.5s */
   z-index: 1001;
 }
 
@@ -99,7 +99,7 @@ nav {
   background: rgba(0, 0, 0, .5);
   display: none;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out; /* Updated to 0.5s */
+  transition: opacity .5s ease-in-out; /* Updated to 0.5s */
   z-index: 1000;
 }
 
@@ -113,7 +113,7 @@ nav {
   /* Side Tray */
   .dynamic-menu {
     position: absolute;
-    top: 110px;
+    top: 145px;
     left: 0;
     transform: translateX(0);
     background: orange;
