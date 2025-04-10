@@ -29,7 +29,6 @@ nav {
   box-shadow: 4px 6px rgba(0, 0, 0, .1);
 }
 
-/* Active menu shows up */
 .dynamic-menu.active {
   opacity: 1;
   padding: 10px;
@@ -73,7 +72,7 @@ nav {
   color: black;
 }
 
-/* Modal Styling */
+/* Modal*/
 .modal-panel {
   position: fixed;
   top: 50%;
@@ -145,11 +144,10 @@ nav {
   }
 }
 
-/* Reset if resized */
 @media (min-width: 737px) {
   .dynamic-menu {
     position: absolute;
-    top: 110px; /* ensure it's below the header */
+    top: 110px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
