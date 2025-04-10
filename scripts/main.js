@@ -112,7 +112,6 @@ document.addEventListener(`DOMContentLoaded`, function () {
         }
     });
 
-    // Handle window resize to reflow menu
     window.addEventListener(`resize`, function () {
         if (window.innerWidth > 736 && isMenuOpen) {
             menuContainer.classList.add(`active`);
