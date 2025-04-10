@@ -101,3 +101,5 @@ exports.build = series(
     compileCSSForProd,
     transpileJSForProd,
 );
+
+exports.default = exports.serve;
