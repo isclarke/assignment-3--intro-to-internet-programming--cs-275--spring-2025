@@ -1,5 +1,5 @@
 const gulp = require(`gulp`);
-const { src, dest, series, parallel, watch } = gulp;
+const { src, dest, series, watch } = gulp;
 const stylelint = require(`gulp-stylelint`);
 const eslint = require(`gulp-eslint`);
 const babel = require(`gulp-babel`);
@@ -32,16 +32,13 @@ let createDirs = (done) => {
     done();
 };
 
-//DEV TRACK TASKS
-let lintAndTranspileJS = () => {
-    return src(paths.js)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(babel({ presets: [`@babel/preset-env`] }))
-        .pipe(dest(`temp/scripts`));
+// DEV TASKS
+let validateHTML = () => {
+    return src(paths.html)
+        .pipe(dest(`temp`));
 };
 
-let lintCSS = () => {
+let compileCSSForDev = () => {
     return src(paths.css)
         .pipe(stylelint({
             reporters: [{ formatter: `string`, console: true }]
@@ -49,53 +46,58 @@ let lintCSS = () => {
         .pipe(dest(`temp/styles`));
 };
 
-let copyHTMLforDev = () => {
-    return src(paths.html)
-        .pipe(dest(`temp`));
-};
-
-//PROD TRACK TASKS
-let transpileJSForProd = () => {
+let lintJS = () => {
     return src(paths.js)
-        .pipe(babel({presets: [`@babel/preset-env`]}))
-        .pipe(uglify())
-        .pipe(dest(`prod/scripts`))
-        .pipe(browserSync.stream());
+        .pipe(eslint())
+        .pipe(eslint.format());
 };
 
-let buildHTML = () => {
+let transpileJSForDev = () => {
+    return src(paths.js)
+        .pipe(babel({ presets: [`@babel/preset-env`] }))
+        .pipe(dest(`temp/scripts`));
+};
+
+let serve = () => {
+    browserSync.init({ server: { baseDir: `temp` } });
+    watch(paths.js, series(lintJS, transpileJSForDev)).on(`change`, browserSync.reload);
+    watch(paths.css, series(compileCSSForDev)).on(`change`, browserSync.reload);
+    watch(paths.html, series(validateHTML)).on(`change`, browserSync.reload);
+};
+
+// PROD TASKS
+let compressHTML = () => {
     return src(paths.html)
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(dest(`prod/html`));
 };
 
-let buildCSS = () => {
+let compileCSSForProd = () => {
     return src(paths.css)
         .pipe(cleanCSS())
         .pipe(dest(`prod/styles`));
 };
 
-// START SERVER
-let serve = () => {
-    browserSync.init({ server: { baseDir: `temp` } });
+let transpileJSForProd = () => {
+    return src(paths.js)
+        .pipe(babel({ presets: [`@babel/preset-env`] }))
+        .pipe(uglify())
+        .pipe(dest(`prod/scripts`));
 };
 
-//WATCH FILES
-let watchFiles = () => {
-    watch(paths.js, lintAndTranspileJS);
-    watch(paths.css, series(lintCSS, buildCSS)).on(`change`, browserSync.reload);
-    watch(paths.html, series(buildHTML)).on(`change`, browserSync.reload);
-};
-
-//BUILD DEV TRACK
-exports.default = series(
+// TASK EXPORTS
+exports.serve = series(
     createDirs,
-    parallel(lintAndTranspileJS, lintCSS, copyHTMLforDev),
-    parallel(serve, watchFiles)
+    validateHTML,
+    compileCSSForDev,
+    lintJS,
+    transpileJSForDev,
+    serve
 );
 
-//BUILD PROD TRACK
 exports.build = series(
     createDirs,
-    parallel(buildHTML, buildCSS, transpileJSForProd)
+    compressHTML,
+    compileCSSForProd,
+    transpileJSForProd,
 );
